@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:alpine
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'        # Tối đa 50% sức mạnh của 1 core CPU
+          memory: 256M       # Tối đa 256 MB RAM
+        reservations:
+          cpus: '0.1'        # Đảm bảo tối thiểu 10% CPU
+          memory: 128M       # Đảm bảo tối thiểu 128 MB RAM
+    ports:
+      - "6380:6379"
