@@ -1,0 +1,59 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://localhost:3306/order_db}
+    username: root
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8083
+
+resilience4j:
+  ratelimiter:
+    instances:
+      userServiceRateLimiter:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 0
+      foodServiceRateLimiter:
+        limitForPeriod: 10
+        limitRefreshPeriod: 10s
+        timeoutDuration: 0
+
+  circuitbreaker:
+    instances:
+      userServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      foodServiceCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+
+  retry:
+    instances:
+      userServiceRetry:
+        maxAttempts: 3
+        waitDuration: 2s
+        retryExceptions:
+          - feign.FeignException
+      foodServiceRetry:
+        maxAttempts: 3
+        waitDuration: 2s
+        retryExceptions:
+          - feign.FeignException

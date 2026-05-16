@@ -1,0 +1,46 @@
+# ============ IDE ============
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============ Maven ============
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+out/
+.mvn/
+*.jar
+*.war
+
+# ============ Gradle ============
+.gradle
+build/
+gradle
+gradlew
+gradlew.bat
+
+# ============ Logs ============
+logs/
+*.log
+log.txt
+
+# ============ Environment Files ============
+.env
+.env.local
+.env.*.local
+
+# ============ Docker ============
+.dockerignore
+
+# ============ Application ============
+*.class
+*.classpath
+*.project
+*.settings/
+.metadata
+.checkstyle

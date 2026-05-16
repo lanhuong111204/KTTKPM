@@ -1,0 +1,95 @@
+version: "3.8"
+
+services:
+  # 1. DATABASE SERVER
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb-server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - food-network
+
+  # 2. USER SERVICE
+  user-service:
+    build: ./userService
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/user_db
+    depends_on:
+      - mariadb
+    networks:
+      - food-network
+
+  # 3. FOOD SERVICE
+  food-service:
+    build: ./mini_food_service
+    container_name: food-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/food_db
+    depends_on:
+      - mariadb
+    networks:
+      - food-network
+
+  # 4. ORDER SERVICE
+  order-service:
+    build: ./orderService
+    container_name: order-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/order_db
+      - FEIGN_CLIENTS_FOOD_SERVICE_URL=http://food-service:8082
+      - FEIGN_CLIENTS_USER_SERVICE_URL=http://user-service:8081
+    depends_on:
+      - mariadb
+      - user-service
+      - food-service
+    networks:
+      - food-network
+
+  # 5. PAYMENT SERVICE
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/payment_db
+      - FEIGN_CLIENTS_ORDER_SERVICE_URL=http://order-service:8083
+    depends_on:
+      - mariadb
+      - order-service
+    networks:
+      - food-network
+
+  # 6. API GATEWAY
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - food-service
+      - order-service
+      - payment-service
+    networks:
+      - food-network
+
+networks:
+  food-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:

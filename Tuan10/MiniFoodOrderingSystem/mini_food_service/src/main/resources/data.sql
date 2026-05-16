@@ -1,0 +1,11 @@
+INSERT INTO foods (id, name, price, description, image_url, is_deleted) VALUES
+(101, 'Cơm Tấm Sườn Bì Chả', 45000, 'Cơm tấm chuẩn vị Sài Gòn, sườn nướng than hoa thơm lừng kèm mỡ hành, đồ chua và nước mắm kẹo.', 'https://images.unsplash.com/photo-1650942478589-9a7005de9b37?auto=format&fit=crop&w=800&q=80', 0),
+(102, 'Bún Bò Huế Đặc Biệt', 55000, 'Bún bò nước dùng đậm đà, full topping: bò bắp, chả cua, giò heo và chả lụa.', 'https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?auto=format&fit=crop&w=800&q=80', 0),
+(103, 'Phở Bò Tái Nạm', 50000, 'Phở bò gia truyền truyền thống, bánh phở mềm dẻo cùng thịt bò tái tươi ngon, nước dùng hầm xương 24h.', 'https://images.unsplash.com/photo-1582878826629-29b7ad1cb438?auto=format&fit=crop&w=800&q=80', 0),
+(104, 'Bánh Mì Thịt Nướng', 25000, 'Bánh mì giòn rụm, kẹp thịt nướng sả ướp đậm vị, thêm pate, bơ và rau thơm.', 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80', 0),
+(105, 'Gà Rán Giòn Cay (2 Miếng)', 65000, 'Gà rán lớp vỏ giòn rụm, thịt bên trong mọng nước, tẩm sốt cay đặc biệt.', 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80', 0),
+(106, 'Mì Ý Sốt Bò Băm', 70000, 'Spaghetti sốt cà chua thịt bò băm (Bolognese) chuẩn vị Ý, rắc thêm phô mai Parmesan béo ngậy.', 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=800&q=80', 0),
+(107, 'Salad Ức Gà Healthy', 50000, 'Món ăn dành cho dân eat-clean. Ức gà nướng áp chảo, xà lách, cà chua bi và sốt mè rang.', 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80', 0),
+(108, 'Trà Sữa Trân Châu Đường Đen', 35000, 'Trà sữa đậm vị trà, trân châu nấu đường đen dẻo dai sần sật.', 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=800&q=80', 0),
+(109, 'Cà Phê Sữa Đá', 20000, 'Cà phê pha phin truyền thống Việt Nam kết hợp với sữa đặc, giúp tỉnh táo cả ngày.', 'https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?auto=format&fit=crop&w=800&q=80', 0),
+(110, 'Gỏi Cuốn Tôm Thịt (3 Cuốn)', 30000, 'Gỏi cuốn thanh mát với tôm luộc, thịt ba chỉ, bún tươi và rau sống, chấm mắm nêm hoặc tương đậu.', 'https://images.unsplash.com/photo-1551024506-0cb98409e4e8?auto=format&fit=crop&w=800&q=80', 0);

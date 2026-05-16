@@ -1,0 +1,81 @@
+# ============================================
+# Docker Compose for Payment Service Stack
+# ============================================
+
+version: "3.8"
+
+services:
+    # ============ MySQL Database ============
+    payment-db:
+        image: mysql:8.0
+        container_name: payment-db
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: payment_db
+            MYSQL_USER: payment_user
+            MYSQL_PASSWORD: payment_pass
+        ports:
+            - "3306:3306"
+        volumes:
+            - payment-db-data:/var/lib/mysql
+            - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
+        networks:
+            - food-ordering-network
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    # ============ Payment Service ============
+    payment-service:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: payment-service
+        restart: unless-stopped
+        depends_on:
+            payment-db:
+                condition: service_healthy
+        environment:
+            # Server Configuration
+            SERVER_PORT: 8084
+
+            # Database Configuration
+            DB_HOST: payment-db
+            DB_PORT: 3306
+            DB_NAME: payment_db
+            DB_USER: payment_user
+            DB_PASSWORD: payment_pass
+
+            # OpenFeign Configuration (gọi Order Service)
+            ORDER_SERVICE_URL: http://order-service:8083
+        ports:
+            - "8084:8084"
+        volumes:
+            - ./logs:/app/logs
+        networks:
+            - food-ordering-network
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "curl",
+                    "-f",
+                    "http://localhost:8084/api/payments/health",
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
+
+# ============ Networks ============
+networks:
+    food-ordering-network:
+        driver: bridge
+
+# ============ Volumes ============
+volumes:
+    payment-db-data:
+        driver: local

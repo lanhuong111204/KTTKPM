@@ -1,0 +1,38 @@
+# ============================================
+# Production Configuration
+# ============================================
+spring:
+    application:
+        name: payment-service
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        show-sql: false
+        properties:
+            hibernate:
+                format_sql: false
+    datasource:
+        hikari:
+            maximum-pool-size: 20
+            minimum-idle: 5
+            connection-timeout: 30000
+            idle-timeout: 600000
+            max-lifetime: 1800000
+
+server:
+    port: 8084
+    error:
+        include-message: never
+        include-stacktrace: never
+
+logging:
+    level:
+        root: WARN
+        com.foodordering: INFO
+
+feign:
+    client:
+        config:
+            default:
+                connectTimeout: 5000
+                readTimeout: 10000
